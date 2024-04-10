@@ -1,6 +1,6 @@
-import React, { useEffect, useMemo, useRef, useState } from 'react'
+import { useEffect, useMemo, useRef, useState } from 'react'
 
-function useBombLocations<T>(size:number): Array<Array<boolean>> {
+function useBombLocations(size:number): Array<Array<boolean>> {
 
   const bs = useMemo<Array<Array<boolean>>>(() => {
     return Array(size)

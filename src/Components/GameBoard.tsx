@@ -63,12 +63,12 @@ const GameBoard: FC<InitialFormProps> = ({
       <div className="flex flex-col gap-2">
         {Array(size)
           .fill(0)
-          .map((row, rkey) => {
+          .map((_row, rkey) => {
             return (
               <div className="flex gap-2" key={rkey}>
                 {Array(size)
                   .fill(0)
-                  .map((col, ckey) => (
+                  .map((_col, ckey) => (
                     <button
                       className={`h-10 w-10 rounded-sm ${
                         boardState[rkey][ckey]

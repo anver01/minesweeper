@@ -1,4 +1,4 @@
-import React, { useState, FormEvent, FC } from "react";
+import { useState, FormEvent, FC } from "react";
 import "./App.css";
 import InitalForm from "./Components/InitalForm";
 import GameBoard from "./Components/GameBoard";
