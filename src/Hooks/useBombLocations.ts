@@ -20,7 +20,7 @@ function useBombLocations(size:number): Array<Array<boolean>> {
       for (let i = 0; i < size; i++){
         for (let j = 0; j < size; j++){
           const p: number = Math.random()
-          if(p<0.2 && cnt <= Math.floor(0.2*(size*size))){
+          if(p<0.2 && cnt <= Math.floor(0.15*(size*size))){
             bs[i][j] = true
             cnt += 1
           }

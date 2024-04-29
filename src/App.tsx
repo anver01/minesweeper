@@ -10,6 +10,7 @@ interface GameProps {
 
 const App: FC = () => {
   const [gameState, setGameState] = useState<GameProps>({ size: 10, state: 0 });
+  const [time, setTime] = useState(0)
 
   const handlePlay = (e: FormEvent<HTMLInputElement>, size: number): void => {
     e.preventDefault();
