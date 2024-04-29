@@ -1,4 +1,4 @@
-import { useState, FormEvent, FC } from "react";
+import { useState, FormEvent, FC, useEffect } from "react";
 import "./App.css";
 import InitalForm from "./Components/InitalForm";
 import GameBoard from "./Components/GameBoard";
@@ -10,7 +10,14 @@ interface GameProps {
 
 const App: FC = () => {
   const [gameState, setGameState] = useState<GameProps>({ size: 10, state: 0 });
-  const [time, setTime] = useState(0)
+
+  useEffect(() => {
+    try {
+      console.log(localStorage.getItem('T'))
+    } catch (error) {
+      console.log('No saved state found')
+    }
+  }, [])
 
   const handlePlay = (e: FormEvent<HTMLInputElement>, size: number): void => {
     e.preventDefault();
@@ -27,13 +34,24 @@ const App: FC = () => {
   }
 
   return (
-    <div className="w-2/3 mx-auto my-20">
-      <h1 className="font-bold text-3xl text-center py-4">Minesweeper</h1>
-      {gameState.state === 0 ? (
-        <InitalForm handlePlay={handlePlay} />
-      ) : (
-        <GameBoard gameState={gameState} handleEnd={handleEnd} handleReset={handleReset} />
-      )}
+    <div className="bg-yellow-700 h-screen">
+      <div className="w-1/2 mx-auto bg-white h-full py-10 shadow-2xl shadow-zinc-700 text-center">
+        <h1 className="font-bold text-6xl text-center pb-10">Minesweeper</h1>
+        {gameState.state === 0 ? (
+          <InitalForm handlePlay={handlePlay} />
+        ) : (
+          <GameBoard gameState={gameState} handleEnd={handleEnd} handleReset={handleReset} />
+        )}
+        {gameState.state > 1 && (
+          <button
+            className="border border-solid border-black rounded-md px-4 py-1 mt-4 bg-white"
+            type="button"
+            onClick={handleReset}
+          >
+            Reset
+          </button>
+        )}
+      </div>
     </div>
   );
 };

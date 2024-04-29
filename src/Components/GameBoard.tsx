@@ -2,6 +2,7 @@ import React, { FC, MouseEvent, useMemo, useState } from "react";
 import useBombLocations from "../Hooks/useBombLocations";
 import clickAudio from '../assets/click-sound.mp3'
 import gongAudio from '../assets/gong-sound.mp3'
+import useElapsedTime from "../Hooks/useElapsedTime";
 
 interface InitialFormProps {
   gameState: GameStateProps;
@@ -17,7 +18,6 @@ interface GameStateProps {
 const GameBoard: FC<InitialFormProps> = ({
   gameState,
   handleEnd,
-  handleReset
 }) => {
   const { size, state } = gameState;
   const bs = useMemo<Array<Array<boolean>>>(() => {
@@ -46,6 +46,7 @@ const GameBoard: FC<InitialFormProps> = ({
   // try to fix this let
   let bombLocations = useBombLocations(size);
 
+  const timer = useElapsedTime()
 
   const resetBombState = (r: number, c: number) => {
     const copy: Array<Array<boolean>> = [...bombLocations]
@@ -181,14 +182,26 @@ const GameBoard: FC<InitialFormProps> = ({
     6: 'text-cyan-600'
   }
 
+  const saveGame = ():void => {
+    localStorage.setItem('BL', JSON.stringify(bombLocations))
+    localStorage.setItem('BS', JSON.stringify(boardState))
+    localStorage.setItem('FS', JSON.stringify(flagState))
+    localStorage.setItem('LO', JSON.stringify(layout))
+    localStorage.setItem('T', JSON.stringify(timer))
+    localStorage.setItem('S', JSON.stringify(1))
+  }
+
   return (
-    <div className="grid place-items-center">
-      <div className="flex flex-col gap-2 border border-solid border-black p-2 rounded-md">
+    <div className="grid place-items-center w-max mx-auto">
+      <div className="my-2 text-right w-full font-semibold text-xl px-4">
+        {timer.minutes} : {timer.seconds}
+      </div>
+      <div className="flex flex-col gap-1 border border-solid border-black p-2 rounded-md bg-green-200">
         {Array(size)
           .fill(0)
           .map((_row, rkey) => {
             return (
-              <div className="flex gap-2" key={rkey}>
+              <div className="flex gap-1" key={rkey}>
                 {Array(size)
                   .fill(0)
                   .map((_col, ckey) => (
@@ -196,7 +209,7 @@ const GameBoard: FC<InitialFormProps> = ({
                       className={`h-10 w-10 rounded-sm font-bold ${
                         boardState[rkey][ckey]
                           ? "bg-gray-300 shadow-inner shadow-black pointer-events-none"
-                          : "bg-gray-400"
+                          : "bg-gray-400 shadow-sm shadow-black"
                       } ${getLayoutColor[layout[rkey][ckey]]}`}
                       key={ckey}
                       type="button"
@@ -223,15 +236,9 @@ const GameBoard: FC<InitialFormProps> = ({
             );
           })}
       </div>
-      {gameState.state > 1 && (
-        <button
-          className="border border-solid border-black rounded-md px-4 py-1 mt-4"
-          type="button"
-          onClick={handleReset}
-        >
-          Reset
-        </button>
-      )}
+      <button className="border border-solid border-black rounded-md px-4 py-1 mt-4 bg-white" onClick={() => saveGame()}>
+        Save
+      </button>
     </div>
   );
 };

@@ -22,7 +22,7 @@ const InitalForm: FC<InitialFormProps> = ({ handlePlay }) => {
         onChange={handleSizeChange}
       />
       <input
-        className="border border-solid border-black rounded-md px-4 py-1"
+        className="border border-solid border-black rounded-md px-4 py-1 bg-white"
         type="button"
         value="Submit"
         onClick={(e) => handlePlay(e, size)}
