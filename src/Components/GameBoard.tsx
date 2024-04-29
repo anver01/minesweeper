@@ -52,6 +52,7 @@ const GameBoard: FC<InitialFormProps> = ({
     const copy: Array<Array<boolean>> = [...bombLocations]
     copy[r][c] = false
     let i = 0
+    // eslint-disable-next-line no-constant-condition
     while(true){
       if(!copy[0][i] && (r!==0 || c!==i)){
         copy[0][i] = true
@@ -148,7 +149,7 @@ const GameBoard: FC<InitialFormProps> = ({
       } else {
         new Audio(gongAudio).play()
         handleEnd()
-      };
+      }
     }
 
     if (!firstClick){
